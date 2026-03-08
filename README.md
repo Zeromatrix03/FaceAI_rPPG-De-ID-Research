@@ -24,6 +24,9 @@ The core evaluation framework, modified to include specific De-ID and batch-proc
 * **`MASS_DE-ID_SWAPPER.py`**: A batch processing script designed to face-swap entire dataset folders efficiently for large-scale testing.
 * **`config/`**: Contains all `.yaml` configuration files. These files define the parameters for testing swapped-face videos against ground truth data.
 
+### 5. requirements.txt
+This file contains all the modules' prerequisites and versions to run on a virtual environment.
+
 ---
 
 ## Evaluation Metrics
