@@ -1,0 +1,42 @@
+BASE: ['']
+TOOLBOX_MODE: "unsupervised_method"      # We use this to establish the POS/CHROM baseline
+
+DEVICE: cuda:0  
+
+UNSUPERVISED:
+  # Including the most robust methods for baselining
+  METHOD: ["POS", "CHROM", "ICA"]
+  METRICS: ['MAE', 'RMSE', 'Pearson', 'SNR']
+  DATA:
+    FS: 30
+    DATASET: UBFC-rPPG
+    DO_PREPROCESS: True            # Set to true if hvnt process before. False if done
+    DATA_FORMAT: NDHWC
+    DATA_PATH: "D:/ASTAR DATASET (FINAL)/refined_outputs"
+
+    # Ensure this is a fresh path
+    CACHED_PATH: "D:/ASTAR_Cache"
+    EXP_DATA_NAME: ""
+    BEGIN: 0.0
+    END: 1.0
+    PREPROCESS:
+      DATA_TYPE: ['Raw']
+      LABEL_TYPE: Raw
+      DO_CHUNK: True               # Set to True to handle memory better
+      CHUNK_LENGTH: 180            # 180 frames = 6 seconds per chunk
+      CROP_FACE:
+        DO_CROP_FACE: True
+        BACKEND: 'HC'              # Haar Cascade is fast for baselining
+        USE_LARGE_FACE_BOX: True
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: True # Better for the math game (movement)
+          DYNAMIC_DETECTION_FREQUENCY : 30
+      RESIZE:
+        H: 72
+        W: 72
+INFERENCE:
+  EVALUATION_METHOD: "FFT"         # Fast Fourier Transform is the standard for rPPG
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: True       # Recommended for realistic movement datasets
+    WINDOW_SIZE: 10                # 10-second windows provide stable HR

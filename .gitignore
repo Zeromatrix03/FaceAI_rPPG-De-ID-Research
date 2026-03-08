@@ -1,0 +1,10 @@
+# Models and Large Files
+*.onnx
+*.pth
+*.t7
+inswapper_128.onnx
+
+# Datasets
+*.mp4
+*.avi
+/datasets/
